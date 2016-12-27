@@ -1,67 +1,80 @@
-const screenWidth = $(document).width()
+var screenHeight = $(document).height();
 
-var points = 0
+var points = 0;
+var lifes = 5;
 
-function refreshPage(){
-  window.location.reload();
-} 
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 function createDucks(count) {
-	var duck = $('<img src="poney.gif">')
+	if (lifes === 0) {
+		return;
+	}
+
+	var duck = $('<img src="poney.gif">');
 	
 	duck.css({
 		position:'absolute',
 		left: `${Math.random()*90}%`,
 		top: '-200px',
-		width: '200px'
-	})
+		width: `${getRandomIntInclusive(180,200)}px`,
+	});
 	
-	duck.appendTo('#duck')
+	duck.appendTo('#game');
 
-	duck.animate({'top': screenWidth}, {
-		duration: 5000,
-		easing: 'swing',
+	duck.animate({'top': screenHeight}, {
+		duration: getRandomIntInclusive(3000, 6000),
+		easing: 'linear',
 		complete: function() {
-			$(this).remove()
-			if (count === 0) {
-				reload()
+			decreaseHearts();
+			$(this).remove();
+			if (lifes === 0) {
+				gameOver();
 			}
 		}
-	})
+	});
+
+	$('#game').on('over', function() {
+		duck.stop().off('click');
+	});
 
 	duck.click(function() {
-		increasePoints()
-		$(this).remove()
-	})
+		increasePoints();
+		$(this).remove().stop().clearQueue();
+	});
 
-	count--
-
-	if (count > 0 ) {
-		setTimeout(createDucks.bind(this, count), 800)
+	if (lifes > 0 ) {
+		setTimeout(createDucks, getRandomIntInclusive(800, 1000));
 	}
 }
 
-function reload() {
-	var reload = $('<img src="reload.png">')
-
-	reload.css({
-		width: '200px',
-	})
-	
-	reload.appendTo('#reload')
-
-	reload.click(function(){
-	  window.location.reload()
-	})
+function gameOver() {
+	$('#game').trigger('over');
+	$('#reload').show().click(function(){
+	  window.location.reload();
+	});
 }
 
-
 function increasePoints() {
-	points += 1
+	points += 1;
 	$('#counter').html(points);
 }
 
-$(document).ready(function() {
-	createDucks(20)
+function fillHearts() {
+	for (var i = 0; i < 5; i++) {
+		$('#lifeContainer').append($('<img src="heart.png">'));
+	}
+}
 
-})
+function decreaseHearts() {
+	lifes -= 1;
+	$('#lifeContainer img').first().remove();
+}
+
+$(document).ready(function initGame() {
+	fillHearts();
+	createDucks();
+});

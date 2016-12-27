@@ -12,13 +12,29 @@ body {
 #container {
     width: 100%;
     height: 100%;
-	text-align: center;
 }
 
 #counter {
-	font-size: 30px;
+	font-size: 80px;
+}
+
+#lifeContainer {
+    display: inline;
+}
+
+#lifeContainer img {
+    width: 50px;
 }
 
 #boardContainer {
-	display: inline;
+	display: block;
+}
+
+#reload {
+    display: none;
+    width: 200px;
+}
+
+#reload img {
+    width: 200px;
 }
