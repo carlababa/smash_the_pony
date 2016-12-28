@@ -12,14 +12,15 @@ body {
 #container {
     width: 100%;
     height: 100%;
+    align-content: center;
 }
 
 #counter {
-	font-size: 80px;
+    font-size: 80px;
 }
 
 #lifeContainer {
-    display: inline;
+    float: right;
 }
 
 #lifeContainer img {
@@ -27,12 +28,14 @@ body {
 }
 
 #boardContainer {
-	display: block;
+    float: left;
 }
 
 #reload {
     display: none;
     width: 200px;
+    margin: auto;
+    padding-top: 300px;
 }
 
 #reload img {
