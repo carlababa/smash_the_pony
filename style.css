@@ -17,6 +17,7 @@ body {
 
 #counter {
     font-size: 80px;
+    display: inline;
 }
 
 #lifeContainer {
